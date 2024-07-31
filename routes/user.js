@@ -2,7 +2,12 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { validateFields } from '../middlewares/validations.js';
+// import { validateFields } from '../middlewares/validations.js';
+// import { validateJWT } from '../middlewares/validate_jwt.js';
+// import { hasRole, isAdminRole } from '../middlewares/validate_role.js';
+
+import {validateFields, validateJWT, hasRole, isAdminRole} from '../middlewares/index.js'
+
 import { isEmailExist, isRoleValid, userWithIdExists } from '../helpers/validations_db.js';
 
 import { 
@@ -38,6 +43,9 @@ router.put('/:id', [
 router.patch('/', usersPatch);
 
 router.delete('/:id', [
+    validateJWT,
+    //isAdminRole,
+    hasRole('ADMIN_ROLE', 'SALES_ROLE'),
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(userWithIdExists),
     validateFields
