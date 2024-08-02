@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { login } from '../controllers/auth.js';
+import { googleSignIn, login } from '../controllers/auth.js';
 import { isEmailExist } from '../helpers/validations_db.js';
 import { validateFields } from '../middlewares/validations.js';
 
@@ -12,6 +12,11 @@ routerAuth.post('/login', [
     check('password', 'La contraseña es obligatoria').not().isEmpty(),
     validateFields
 ], login);
+
+routerAuth.post('/google', [
+    check('id_token', 'El token de google es obligatorio').not().isEmpty(),
+    validateFields
+], googleSignIn);
 
 export {
     routerAuth
