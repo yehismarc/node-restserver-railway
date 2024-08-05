@@ -1,5 +1,4 @@
-import { Role } from '../models/role.js';
-import { User } from '../models/user.js';
+import { Role, User, Category, Product } from '../models/index.js';
 
 const isRoleValid = async(role = '') => {
     const existsRole = await Role.findOne({role});
@@ -35,10 +34,36 @@ const userWithIdExists = async(id) => {
 
 }
 
+const categoryWithIdExists = async(id) => {
+
+    // Verify if the id exists
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        const categoryExists = await Category.findById(id);
+    
+        if(!categoryExists) {
+            throw new Error(`El id: ${id} no existe`);
+        }
+    }
+}
+
+const productWithIdExists = async(id) => {
+
+    // Verify if the id exists
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        const productExists = await Product.findById(id);
+    
+        if(!productExists) {
+            throw new Error(`El id: ${id} no existe`);
+        }
+    }
+}
+
 
 
 export {
     isRoleValid,
     isEmailExist,
-    userWithIdExists
+    userWithIdExists,
+    categoryWithIdExists,
+    productWithIdExists
 }

@@ -1,5 +1,5 @@
 
-export * from '../middlewares/validations.js';
-export * from '../middlewares/validate_jwt.js';
-export * from '../middlewares/validate_role.js';
+export {validateFields} from '../middlewares/validations.js';
+export {validateJWT} from '../middlewares/validate_jwt.js';
+export {isAdminRole, hasRole} from '../middlewares/validate_role.js';
 

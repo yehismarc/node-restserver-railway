@@ -4,6 +4,9 @@ import cors from 'cors';
 import {router} from '../routes/user.js'
 import { routerAuth } from '../routes/auth.js';
 import { dbConnection } from '../db/config.js';
+import { routerCategories } from '../routes/categories.js';
+import { routerProducts } from '../routes/products.js';
+import { routerSearch } from '../routes/search.js';
 
 class Server{
 
@@ -11,8 +14,13 @@ class Server{
         this.app = express();
         this.port = process.env.PORT;
 
-        this.usersPath = '/api/users';
-        this.authPath = '/api/auth';
+        this.paths = {
+            users: '/api/users',
+            auth: '/api/auth',
+            categories: '/api/categories',
+            products: '/api/products',
+            search: '/api/search'
+        }
 
         // Connection DB
         this.connectDB();
@@ -42,9 +50,11 @@ class Server{
 
     routes() {
 
-        this.app.use(this.usersPath, router);
-        this.app.use(this.authPath, routerAuth);
-          
+        this.app.use(this.paths.users, router);
+        this.app.use(this.paths.auth, routerAuth);
+        this.app.use(this.paths.categories, routerCategories);
+        this.app.use(this.paths.products, routerProducts);
+        this.app.use(this.paths.search, routerSearch);
     }
 
     listen() {
