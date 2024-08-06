@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import {router} from '../routes/user.js'
 import { routerAuth } from '../routes/auth.js';
@@ -7,6 +8,7 @@ import { dbConnection } from '../db/config.js';
 import { routerCategories } from '../routes/categories.js';
 import { routerProducts } from '../routes/products.js';
 import { routerSearch } from '../routes/search.js';
+import { routerUpload } from '../routes/uploads.js';
 
 class Server{
 
@@ -19,7 +21,8 @@ class Server{
             auth: '/api/auth',
             categories: '/api/categories',
             products: '/api/products',
-            search: '/api/search'
+            search: '/api/search',
+            uploads: '/api/uploads'
         }
 
         // Connection DB
@@ -46,6 +49,13 @@ class Server{
 
         // Public directory
         this.app.use(express.static('public'));
+
+        // Upload file
+        this.app.use( fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            // createParentPath: true
+        }));
     }
 
     routes() {
@@ -55,6 +65,7 @@ class Server{
         this.app.use(this.paths.categories, routerCategories);
         this.app.use(this.paths.products, routerProducts);
         this.app.use(this.paths.search, routerSearch);
+        this.app.use(this.paths.uploads, routerUpload);
     }
 
     listen() {

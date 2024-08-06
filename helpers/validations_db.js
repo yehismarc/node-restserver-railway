@@ -58,6 +58,18 @@ const productWithIdExists = async(id) => {
     }
 }
 
+const allowedCollections = (collection = '', collections = []) => {
+
+    const include = collections.includes(collection);
+
+    if(!include) {
+        throw new Error(`La colección ${collection} no es permitida - ${collections}`);
+    }
+
+    return true;
+
+}
+
 
 
 export {
@@ -65,5 +77,6 @@ export {
     isEmailExist,
     userWithIdExists,
     categoryWithIdExists,
-    productWithIdExists
+    productWithIdExists,
+    allowedCollections
 }
