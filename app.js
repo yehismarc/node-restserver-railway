@@ -2,10 +2,10 @@
 import 'dotenv/config'
 
 
-import { Servers } from './models/server.js'
+import { Server } from './models/server.js'
 
 
-const server = new Servers();
+const server = new Server();
 
 
 server.listen();
